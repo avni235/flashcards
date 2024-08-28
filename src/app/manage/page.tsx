@@ -6,10 +6,18 @@ import CreateCategory from "./_categories/create-category-dialog";
 import CreateFlashcard from "./_flashcards/create-flashcard-dialog";
 
 export default async function Manage() {
-  const categories = await prisma.category.findMany();
-  const flashcards = await prisma.flashcard.findMany({
-    include: { category: true },
-  });
+  let categories = [];
+  let flashcards = [];
+
+  try {
+    categories = await prisma.category.findMany();
+    flashcards = await prisma.flashcard.findMany({
+      include: { category: true },
+    });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // Optionally handle error or set fallback data
+  }
 
   return (
     <div className="flex flex-col lg:flex-row gap-6">
