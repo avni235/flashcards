@@ -15,11 +15,9 @@ model Flashcard {
   id         Int      @id @default(autoincrement())
   question   String
   answer     String
-  slug       String   @unique
+  slug       String
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
 
   @@index([categoryId])
 }
@@ -27,8 +25,6 @@ model Flashcard {
 model Category {
   id         Int         @id @default(autoincrement())
   name       String
-  slug       String      @unique
+  slug       String
   flashcards Flashcard[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
 }
