@@ -4,10 +4,17 @@ import { FlashcardsDataTable } from "./_flashcards/flashcards-data-table";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import CreateCategory from "./_categories/create-category-dialog";
 import CreateFlashcard from "./_flashcards/create-flashcard-dialog";
+import type { Category, Flashcard } from "@prisma/client";
+
+// Define types for the fetched data
+type ManageProps = {
+  categories: Category[];
+  flashcards: (Flashcard & { category: Category })[]; // Flashcard with associated category
+};
 
 export default async function Manage() {
-  let categories = [];
-  let flashcards = [];
+  let categories: Category[] = [];
+  let flashcards: (Flashcard & { category: Category })[] = [];
 
   try {
     categories = await prisma.category.findMany();
@@ -16,7 +23,7 @@ export default async function Manage() {
     });
   } catch (error) {
     console.error("Error fetching data:", error);
-    // Optionally handle error or set fallback data
+    // Handle error or provide default values
   }
 
   return (
